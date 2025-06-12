@@ -1,0 +1,18 @@
+[
+    {
+        "book_id": 1,
+        "title": "book1",
+        "author": "autor1",
+        "year_of_publication": "2000",
+        "genre": "comedy",
+        "available": false
+    },
+    {
+        "book_id": 2,
+        "title": "b2",
+        "author": "a2",
+        "year_of_publication": "2000",
+        "genre": "triller",
+        "available": true
+    }
+]
