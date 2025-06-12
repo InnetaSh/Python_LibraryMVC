@@ -22,25 +22,28 @@ class LibraryController:
         while True:
             LibraryView.show_menu()
             choice = input("Выберите пункт меню: ")
-
-            if choice == "1":
-                self.add_book()
-            elif choice == "2":
-                self.view_books()
-            elif choice == "3":
-                self.filter_books_by_genre()
-            elif choice == "4":
-                self.issue_book()
-            elif choice == "5":
-                self.return_book()
-            elif choice == "6":
-                self.show_users()
-            elif choice == "7":
-                self.save_and_exit()
-                print(" Данные сохранены. Выход...")
-                break
-            else:
-                print(" Неверный выбор. Попробуйте снова.")
+            print("-" * 50)
+            match choice:
+                case "1":
+                    self.add_book()
+                case "2":
+                    self.view_books()
+                case "3":
+                    self.filter_books_by_genre()
+                case "4":
+                    self.issue_book()
+                case "5":
+                    self.return_book()
+                case "6":
+                    self.add_user()
+                case "7":
+                    self.show_users()
+                case "8":
+                    self.save_and_exit()
+                    print(" Данные сохранены. Выход...")
+                    break
+                case _:
+                    print(" Неверный выбор. Попробуйте снова.")
 
 
 
@@ -68,6 +71,27 @@ class LibraryController:
         genre = LibraryView.input_data("Введите жанр для фильтрации: ")
         filtered = [b for b in self.library.books if b.genre.lower() == genre.lower()]
         LibraryView.show_books(filtered)
+
+    def add_user(self):
+        user_name = LibraryView.input_data("Имя пользователя: ")
+
+        while True:
+            card_number = LibraryView.input_data("Номер читательского билета: ")
+            user = next((u for u in self.library.users if u.library_card_number == card_number), None)
+
+            if not user:
+                new_user = User(user_name, card_number)
+                self.library.users.append(new_user)
+                self.library.save_file(self.library.users, filePath_user)
+                print("Пользователь записан в библиотеку.")
+                break
+            else:
+                print("Пользователь с таким читательским билетом уже записан в библиотеке.")
+                choice = LibraryView.input_data(
+                    "Ввести другой номер читательского билета или вернуться в меню (0/1): ")
+                if choice == '0':
+                    break
+
 
     def issue_book(self):
         user_name = LibraryView.input_data("Имя пользователя: ")
@@ -104,13 +128,12 @@ class LibraryController:
         card_number = LibraryView.input_data("Номер читательского билета: ")
         title = LibraryView.input_data("Название книги: ")
 
-        user = next((u for u in self.library.users if u.card_number == card_number), None)
-        book = next((b for b in self.library.books if b.title == title and b.available), None)
+        user = next((u for u in self.library.users if u.library_card_number == card_number), None)
+        book = next((b for b in self.library.books if b.title == title ), None)
 
-        if user and book.book_id in user.issued_books:
-            user.book.remove( book.book_id)
-            if book:
-                book.available = True
+        if user and book and book.book_id in user.issued_books:
+            user.issued_books.remove(book.book_id)
+            book.available = True
             print("Книга возвращена.")
         else:
             print("Книга не найдена у пользователя.")

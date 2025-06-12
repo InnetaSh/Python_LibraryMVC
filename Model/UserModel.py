@@ -5,7 +5,7 @@ class User:
         self.issued_books = []
 
     def __str__(self):
-        return f"{self.name} : library card number- {self.library_card_number}"
+        return f"{self.name} : №{self.library_card_number}"
 
 
 

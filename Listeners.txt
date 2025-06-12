@@ -2,8 +2,11 @@
     {
         "name": "tom",
         "library_card_number": "1111",
-        "issued_books": [
-          1
-        ]
+        "issued_books": []
+    },
+    {
+        "name": "bob",
+        "library_card_number": "2222",
+        "issued_books": []
     }
 ]

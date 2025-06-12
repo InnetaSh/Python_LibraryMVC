@@ -5,16 +5,19 @@
 class LibraryView:
     @staticmethod
     def show_menu():
-        print("\nДанные библиотеки")
-        print("-" * 50)
+        print()
+        print("*" * 70)
+        print("Данные библиотеки".center(70))
+        print("*" * 70)
         print("1.Добавлять новую книгу в библиотеку.")
         print("2.Просматривать все книги")
         print("3.Фильтровать книги по жанру")
         print("4.Выдавать книгу пользователю")
-        print("5. Возвращать книгу в библиотеку.")
-        print("6.Просматривать список пользователей и выданные им книги")
-        print("7.Save.Exit")
-        print("-" * 50)
+        print("5.Возвращать книгу в библиотеку.")
+        print("6.Записать пользователя в библиотеку.")
+        print("7.Просматривать список пользователей и выданные им книги")
+        print("8.Save.Exit")
+        print("-" * 70)
 
     @staticmethod
     def input_data(prompt):
@@ -34,11 +37,12 @@ class LibraryView:
         if not users:
              print("No books found")
         else:
-             print("\n Список пользователей:")
-             for user in users:
-                 print(user)
+             print("Список пользователей:".center(70))
+             print("-" * 70)
+             for i, user in enumerate(users, start=1):
+                 print(f"{i}. {user}")
                  if user.issued_books:
-                     print("Выданные книги:")
+                     print("   выданные книги:")
                      for book_id in user.issued_books:
                          book = next((b for b in books if b.book_id == book_id), None)
                          if book:
